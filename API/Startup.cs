@@ -10,6 +10,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Microsoft.EntityFrameworkCore;
+using DB;
 
 namespace API
 {
@@ -25,7 +27,19 @@ namespace API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
+            services.AddCors(options => options.AddPolicy("default", r => {
+                r.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
+            }));
+
+            services
+               .AddDbContext<ModelNorthwind>(
+                           options => options.UseSqlServer(Configuration.GetConnectionString("Northwind")));
+
+            services.AddMvc()
+                .AddJsonOptions(options =>
+                    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore)
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -41,6 +55,7 @@ namespace API
                 app.UseHsts();
             }
 
+            app.UseCors("default");
             app.UseHttpsRedirection();
             app.UseMvc();
         }
