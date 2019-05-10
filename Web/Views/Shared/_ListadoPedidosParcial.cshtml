@@ -1,0 +1,17 @@
+﻿@*@using Curso.MVC.WebApplication31.Models
+@model IEnumerable<Orders>
+
+@foreach (var item in Model)
+{
+    <tr>
+        <td><a href="/pedidos/ficha/@item.OrderID">@item.OrderID</a></td>
+        <td>@(item.OrderDate.HasValue ? item.OrderDate.Value.ToShortDateString() : "")</td>
+        <td>@(item.ShippedDate.HasValue ? item.ShippedDate.Value.ToShortDateString() : "")</td>
+        <td>
+            @item.Customers.CompanyName<br />
+            <small>@item.ShipAddress</small><br />
+            <small>@item.ShipCity (@item.ShipCountry)</small>
+        </td>
+        <td>@item.Shippers.CompanyName</td>
+    </tr>
+}*@

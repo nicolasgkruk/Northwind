@@ -1,0 +1,60 @@
+﻿@{
+    ViewBag.Title = "Ficha del Cliente";
+}
+@section scripts {
+    <script>
+        $(document).ready(function () {
+            demo.Init.Cliente.Ficha();
+        });
+    </script>
+}
+<br />
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3><b>Ficha de @Model.CompanyName</b></h3>
+    </div>
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-md-2"><b>Identificador:</b></div>
+            <div class="col-md-10">@Model.CustomerID</div>
+        </div>
+        <div class="row">
+            <div class="col-md-2"><b>Empresa:</b></div>
+            <div class="col-md-10">@Model.CompanyName</div>
+        </div>
+        <div class="row">
+            <div class="col-md-2"><b>Contacto:</b></div>
+            <div class="col-md-10">@Model.ContactName (@Model.ContactTitle)</div>
+        </div>
+        <div class="row">
+            <div class="c ol-md-2"><b>Dirección:</b></div>
+            <div class="col-md-10">
+                @Model.Address<br />
+                @Model.PostalCode @Model.City (@Model.Country)
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2"><b>Teléfono:</b></div>
+            <div class="col-md-10">@Model.Phone</div>
+        </div>
+    </div>
+</div>
+<br />
+@*@Html.Partial("_TablaPedidos", Model.Orders)*@
+@*@{ Html.RenderAction("pedidosporcliente", "pedidos", new { id = Model.CustomerID }); }*@
+@*@Ajax.ActionLink("Mostrar Pedidos",
+                        "PedidosPorCliente",
+                        "Pedidos",
+                        new { id = Model.CustomerID},
+                        new AjaxOptions() {
+                            HttpMethod = "GET",
+                            InsertionMode = InsertionMode.Replace,
+                            UpdateTargetId = "pedidos",
+                            OnSuccess = "demo.Process.Clientes.Ficha.MostrarPedidos()"
+                        },
+                        new { @class = "btn btn-success boton-pedidos" })*@
+<a href="/clientes" class="btn btn-success">Ir al Listado</a>
+<br /><br />
+<div id="pedidos"></div> 
+<br />
+<br />

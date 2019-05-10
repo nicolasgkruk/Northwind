@@ -1,0 +1,71 @@
+﻿@{
+                /**/
+
+                ViewBag.Title = "Listado de Clientes";
+}
+@section scripts {
+    <script>
+        $(document).ready(function () {
+
+
+
+
+
+            site.Init.Cliente.Listado();
+        });
+    </script>
+}
+<br />
+<div class="row">
+    <div class="col-md-12">
+        <a class="btn btn-success" href="/clientes/nuevo">Nuevo Cliente</a>
+    </div>
+</div>
+<br />
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <td><b>ID Cliente</b></td>
+            <td><b>Empresa</b></td>
+            <td><b>Contacto</b></td>
+            <td><b>Teléfono</b></td>   
+            <td><b>Dirección</b></td>
+            <td><b>Operaciones</b></td>
+        </tr>
+    </thead>
+    <tbody>
+        @* @foreach (var item in Model)
+        {
+           <tr data-fila="@item.CustomerID">
+                <td><a href="/clientes/ficha/@item.CustomerID">@item.CustomerID</a></td>
+                <td>@item.CompanyName</td>
+                <td>
+                    @item.ContactName<br />
+                    <small>@item.ContactTitle</small>
+                </td>
+                <td>@item.Phone</td>
+                <td>
+                    <small>@item.Address</small><br />
+                    <small>@item.City (@item.Country)</small>
+                </td>
+                <td>
+                    <a class="btn btn-success btn-sm" href="/clientes/editar/@item.CustomerID">Editar</a>
+                    <button data-nombre="@item.CompanyName" data-id="@item.CustomerID" type="button" class="btn btn-danger btn-sm boton-eliminar">Borrar</button>
+                    @Ajax.ActionLink("Pedidos",
+                        "PedidosPorCliente",
+                        "Pedidos",
+                        new { id = item.CustomerID},
+                        new AjaxOptions() {
+                            HttpMethod = "GET",
+                            InsertionMode = InsertionMode.Replace,
+                            UpdateTargetId = "modal-body",
+                            OnSuccess = "demo.Process.Clientes.Listado.MostrarPedidos()"
+                        },
+                        new { @class = "btn btn-success btn-sm" })
+                </td>
+            </tr>
+        }*@
+    </tbody>
+</table>
+<br />
+<br />
