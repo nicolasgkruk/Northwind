@@ -7,7 +7,9 @@ module.exports = {
     entry: ['./src/es6.js'],
     output: {
         filename: bundleFileName + '.js',
-        path: path.resolve(__dirname, 'wwwroot/js')
+        path: path.resolve(__dirname, 'wwwroot/js'),
+        library: 'site',
+        libraryTarget: 'var',
     },
     //module: {
     //    rules: [{
