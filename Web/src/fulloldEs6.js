@@ -61,12 +61,7 @@ var site = {
                         //            InsertionMode = InsertionMode.Replace,
                         //            UpdateTargetId = "modal-body",
                         //            OnSuccess = "demo.Process.Clientes.Listado.MostrarPedidos()"
-                        //$('boton-pedidos').click((e) => {
-                        //    var id = $(this).data('id');
-                        //    $.ajax({
-                        //        url: 'https://localhost:44394/api/orders/',
-                        //    })
-                        //})
+                        
                     },
                     error: function (e) { }
                 });

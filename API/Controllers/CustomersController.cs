@@ -27,6 +27,16 @@ namespace API.Controllers
             return await _context.Customers.ToListAsync();
         }
 
+        // GET: api/Customers/ANATR/Orders
+        [HttpGet("{id}/orders")]
+        public async Task<ActionResult<IEnumerable<Orders>>> GetOrdersByCustomer([FromRoute] string id)
+        {
+            return await _context.Orders.Where(x => x.CustomerID == id)
+                .Include(x => x.Customer)
+                .Include(x => x.ShipViaNavigation)
+                .ToListAsync();
+        }
+
         // GET: api/Customers/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Customers>> GetCustomers(string id)
