@@ -11,29 +11,4 @@ module.exports = {
         library: 'site',
         libraryTarget: 'var',
     },
-    //module: {
-    //    rules: [{
-    //        test: /\.scss$/,
-    //        use: [
-    //            {
-    //                loader: 'file-loader',
-    //                options: {
-    //                    name: bundleFileName + '.css'
-    //                }
-    //            },
-    //            {
-    //                loader: 'extract-loader'
-    //            },
-    //            {
-    //                loader: "css-loader",
-    //                options: {
-    //                    minimize: true || {/* or CSSNano Options */ }
-    //                }
-    //            },
-    //            {
-    //                loader: "sass-loader"
-    //            }
-    //        ]
-    //    }]
-    //}
 };
