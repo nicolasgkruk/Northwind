@@ -34,31 +34,33 @@ module.exports = {
 
                             $('tbody').html(html);
                             module.exports.Process.Clientes.Listado.MostrarPedidos();                      
-                            const tabla = module.exports.Init.DataTable();
+                            module.exports.Init.Clientes.DataTable();
                             $('.ajax-loader').hide();
                             $('.tabla-clientes').show();
 
                         },
                         error: (e) => {
                             alert("Ha habido un problema y hemos sido incapaces de recuperar la lista de clientes. Por favor vuelva a intentarlo nuevamente o contactese con el administrador del sitio.");
-                            $('.ajax-loader').hide();
+                            $('.ajax-loader').hide();                          
+                            window.location.assign(`https://${window.location.host}/`);
                         },
                         complete: (e) => {
                             $('.ajax-loader').hide();
                             $('.tabla-clientes').show();
                         }
                     });
-                }
-            },
-            DataTable: 
-                () => {
-                     $('table').DataTable({
-                        language: { url: '//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json' },
-                        columnDefs: [
-                            { orderable: false, targets: [5] },
-                        ]
-                    });
-                }
+                },
+                DataTable: 
+                        () => {
+                                $('table').DataTable({
+                                language: { url: '//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json' },
+                                columnDefs: [
+                                    { orderable: false, targets: [5] },
+                                ]
+                            });
+                        }
+            }
+            
         },
         Process: {
                 Clientes: {
