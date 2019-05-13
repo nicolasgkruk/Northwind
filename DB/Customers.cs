@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 
 namespace DB
@@ -24,6 +25,7 @@ namespace DB
         public string Fax { get; set; }
 
         public virtual ICollection<CustomerCustomerDemo> CustomerCustomerDemo { get; set; }
+        [JsonIgnore]
         public virtual ICollection<Orders> Orders { get; set; }
     }
 }

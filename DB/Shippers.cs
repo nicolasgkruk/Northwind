@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 
 namespace DB
@@ -13,7 +14,7 @@ namespace DB
         public int ShipperID { get; set; }
         public string CompanyName { get; set; }
         public string Phone { get; set; }
-
+        [JsonIgnore]
         public virtual ICollection<Orders> Orders { get; set; }
     }
 }
