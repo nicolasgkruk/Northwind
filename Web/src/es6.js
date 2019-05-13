@@ -59,6 +59,99 @@ module.exports = {
                             $('.tabla-clientes').show();
                         }
                     });
+                },
+                Nuevo: () => {
+
+                    $("input.CustomerID").change((e) => {
+                        if ($.trim($("input.CustomerID").val()) !== "") {
+                            $("span.CustomerID").html("");
+                        }
+                    })
+
+                    $("input.CompanyName").change((e) => {
+                        if ($.trim($("input.CompanyName").val()) !== "") {
+                            $("span.CompanyName").html("");
+                        }
+                    })
+
+                    $(".nuevo-cliente").click((e) => {
+
+                        const customerID = $.trim($("input.CustomerID").val());
+                        const companyName = $.trim($("input.CompanyName").val());
+                        const contactName = $.trim($("input.ContactName").val());
+                        const contactTitle = $.trim($("input.ContactTitle").val());
+                        const address = $.trim($("input.Address").val());
+                        const city = $.trim($("input.City").val());
+                        const region = $.trim($("input.Region").val());
+                        const postalCode = $.trim($("input.PostalCode").val());
+                        const country = $.trim($("input.Country").val());
+                        const phone = $.trim($("input.Phone").val());
+                        const fax = $.trim($("input.Fax").val());
+
+
+
+
+                        let invalidFields = 0;
+
+                        // Individual field validation and validation message setting.
+                        if (customerID === "") {
+                            invalidFields++;
+                            $("span.CustomerID").html("Este campo es obligatorio. Por favor no lo dejes vacío.");
+                        } else {
+                            $("span.CustomerID").html("");
+                        }
+
+                        if (companyName === "") {
+                            invalidFields++;
+                            $("span.CompanyName").html("Este campo es obligatorio. Por favor no lo dejes vacío.");    
+                        } else {
+                            $("span.CompanyName").html("");
+                        }
+
+                        // Overall check of presence of at least one invalid field.
+
+                        if (invalidFields > 0) {
+                            alert("Por favor revisa los textos en rojo debajo de algunos campos que has ingresado. Hay por lo menos uno de ellos que debe ser modificado para poder enviar su solicitud.");
+                            $("html, body").animate({
+                                scrollTop: 0
+                            }, 1000);
+                            return;
+                        }
+
+
+                        $.ajax({
+                            url: 'https://localhost:44394/api/customers/',
+                            type: 'post',
+                            data: JSON.stringify({
+                                CustomerID: customerID,
+                                CompanyName: companyName,
+                                ContactName: contactName,
+                                ContactTitle: contactTitle,
+                                Address: address,
+                                City: city,
+                                Region: region,
+                                PostalCode: postalCode,
+                                Country: country,
+                                Phone: phone,
+                                Fax: fax
+                            }),
+                            contentType: 'application/json',
+                            beforeSend: () => {
+                                $('.ajax-loader').show();
+                            },
+                            success: function (res) {
+                                alert("Cliente creado exitosamente. Redireccionando al listado.")
+                                window.location.assign(`https://${window.location.host}/clientes/`);
+                            },
+                            error: (e) => {
+                                alert("Ha habido un problema y hemos sido incapaces de agregar tu nuevo cliente. Por favor vuelva a intentarlo nuevamente o contactese con el administrador del sitio.");
+                                $('.ajax-loader').hide();
+                            },
+                            complete: (e) => {
+                                $('.ajax-loader').hide();
+                            }
+                        });
+                    })
                 }
                 
             },

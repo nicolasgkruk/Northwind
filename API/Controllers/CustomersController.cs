@@ -83,7 +83,7 @@ namespace API.Controllers
 
         // POST: api/Customers
         [HttpPost]
-        public async Task<ActionResult<Customers>> PostCustomers(Customers customers)
+        public async Task<ActionResult<Customers>> PostCustomers([FromBody] Customers customers)
         {
             _context.Customers.Add(customers);
             try

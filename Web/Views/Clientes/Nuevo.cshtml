@@ -1,0 +1,93 @@
+﻿@{
+    ViewBag.Title = "Agregar nuevo cliente";
+}
+
+@section scripts {
+    <script>
+        $(document).ready(function () {
+            site.Init.Clientes.Nuevo();
+        });
+    </script>
+}
+
+<h1>Añadir nuevo cliente</h1>
+<div id="modal-body"></div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">Ficha de cliente</div>
+
+        <div class="panel-body">
+            <div class="form-group">
+                <label for="CustomerID">Identificador</label>
+                <input class="form-control text-box single-line CustomerID" type="text" value="">
+                <span class="field-validation-valid text-danger CustomerID"></span>
+            </div>
+
+            <div class="form-group">
+                <label for="CompanyName">Empresa</label>
+                <input class="form-control text-box single-line CompanyName" type="text" value="">
+                <span class="field-validation-valid text-danger CompanyName"></span>
+            </div>
+
+            <div class="form-group">
+                <label for="ContactName">Persona de contacto</label>
+                <input class="form-control text-box single-line ContactName" type="text" value="">
+                <span class="field-validation-valid text-danger ContactName"></span>
+            </div>
+
+            <div class="form-group">
+                <label for="ContactTitle">Cargo</label>
+                <input class="form-control text-box single-line ContactTitle" type="text" value="">
+                <span class="field-validation-valid text-danger ContactTitle"></span>
+            </div>
+
+            <div class="form-group">
+                <label for="Address">Dirección</label>
+                <input class="form-control text-box single-line Address" type="text" value="">
+                <span class="field-validation-valid text-danger Address"></span>
+            </div>
+
+            <div class="form-group">
+                <label for="City">Ciudad</label>
+                <input class="form-control text-box single-line City" type="text" value="">
+                <span class="field-validation-valid text-danger City"></span>
+            </div>
+
+            <div class="form-group">
+                <label for="Region">Región</label>
+                <input class="form-control text-box single-line Region" type="text" value="">
+                <span class="field-validation-valid text-danger Region"></span>
+            </div>
+
+            <div class="form-group">
+                <label for="PostalCode">Código postal</label>
+                <input class="form-control text-box single-line PostalCode" type="text" value="">
+                <span class="field-validation-valid text-danger PostalCode"></span>
+            </div>
+
+            <div class="form-group">
+                <label for="Country">País</label>
+                <input class="form-control text-box single-line Country" type="text" value="">
+                <span class="field-validation-valid text-danger Country"></span>
+            </div>
+
+            <div class="form-group">
+                <label for="Phone">Teléfono</label>
+                <input class="form-control text-box single-line Phone" type="text" value="">
+                <span class="field-validation-valid text-danger Phone"></span>
+            </div>
+
+            <div class="form-group">
+                <label for="Fax">Fax</label>
+                <input class="form-control text-box single-line Fax" type="text" value="">
+                <span class="field-validation-valid text-danger Fax"></span>
+            </div>
+
+    <div class="row">
+        <div class="col-md-12 text-right">
+            <button class="btn btn-success nuevo-cliente">Insertar</button>
+        </div>
+    </div>
+</div>
+</div>
+
