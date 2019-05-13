@@ -1,6 +1,16 @@
 ﻿
 module.exports = {
-        Init: {
+    Init: {
+        DataTable:
+            (notOrderedColumn) => {
+                $('table').DataTable({
+                    language: { url: '//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json' },
+                    columnDefs: [
+                        { orderable: false, targets: [notOrderedColumn] },
+                    ]
+                });
+            },
+
             Clientes: {
                 Listado: () => {
                     $.ajax({
@@ -27,14 +37,14 @@ module.exports = {
                                 </td>
                                 <td>
                                     <a class="btn btn-success btn-sm" href="/clientes/editar/${res[i].customerID}">Editar</a>
-                                    <button data-nombre="${res[i].companyName}" data-id="${res[i].customerID}" type="button" class="btn btn-danger btn-sm boton-eliminar">Borrar</button>
+                                    <button data-id="${res[i].customerID}" type="button" class="btn btn-danger btn-sm boton-eliminar">Borrar</button>
                                     <button data-id="${res[i].customerID}" class="btn btn-primary btn-sm boton-pedidos">Pedidos</button></td>
                             </tr>`;
                             };
 
                             $('tbody').html(html);
                             module.exports.Process.Clientes.Listado.MostrarPedidos();                      
-                            module.exports.Init.Clientes.DataTable();
+                            module.exports.Init.DataTable(5);
                             $('.ajax-loader').hide();
                             $('.tabla-clientes').show();
 
@@ -49,16 +59,8 @@ module.exports = {
                             $('.tabla-clientes').show();
                         }
                     });
-                },
-                DataTable: 
-                        () => {
-                                $('table').DataTable({
-                                language: { url: '//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json' },
-                                columnDefs: [
-                                    { orderable: false, targets: [5] },
-                                ]
-                            });
-                        }
+                }
+                
             },
             Pedidos: {
                 Listado: () => {
@@ -91,7 +93,7 @@ module.exports = {
 
                             $('tbody').html(html);
                             module.exports.Process.Pedidos.Listado.MostrarProductos();
-                            module.exports.Init.Clientes.DataTable();
+                            module.exports.Init.DataTable(5);
                             $('.ajax-loader').hide();
                             $('.tabla-pedidos').show();
 
@@ -104,6 +106,50 @@ module.exports = {
                         complete: (e) => {
                             $('.ajax-loader').hide();
                             $('.tabla-pedidos').show();
+                        }
+                    });
+                }
+            },
+
+            Productos: {
+                Listado: () => {
+                    $.ajax({
+                        url: 'https://localhost:44394/api/products/',
+                        type: 'get',
+                        contentType: 'application/json',
+                        beforeSend: () => {
+                            $('.ajax-loader').show();
+                        },
+                        success: function (res) {
+                            let html = "";
+                            for (var i = 0; i < res.length; i++) {
+                                html += `<tr>
+                                    <td>${res[i].productID}</td>
+                                    <td>${res[i].productName}</td>
+                                    <td class="text-center">${res[i].category.categoryName}</td>
+                                    <td class="text-right">${res[i].unitsInStock}</td>
+                                    <td class="text-right">${res[i].unitsOnOrder}</td>
+                                    <td class="text-right">${res[i].unitPrice}</td>
+                                <td>
+                                    <a class="btn btn-success btn-sm" href="/productos/editar/${res[i].productID}">Editar</a>
+                                    <button data-id="${res[i].productID}" type="button" class="btn btn-danger btn-sm boton-eliminar">Borrar</button>
+                            </tr>`;
+                            };
+
+                            $('tbody').html(html);
+                            module.exports.Init.DataTable(6);
+                            $('.ajax-loader').hide();
+                            $('.tabla-productos').show();
+
+                        },
+                        error: (e) => {
+                            alert("Ha habido un problema y hemos sido incapaces de recuperar la lista de productos. Por favor vuelva a intentarlo nuevamente o contactese con el administrador del sitio.");
+                            $('.ajax-loader').hide();
+                            window.location.assign(`https://${window.location.host}/`);
+                        },
+                        complete: (e) => {
+                            $('.ajax-loader').hide();
+                            $('.tabla-productos').show();
                         }
                     });
                 }
@@ -206,14 +252,14 @@ module.exports = {
                                             <td>${res[i].productID}</td>
                                             <td>${res[i].product.productName}</td>
                                             <td>${res[i].quantity}</td>
-                                            <td>${res[i].unitPrice}</td>
-                                            <td>${res[i].unitPrice * res[i].quantity}</td>
+                                            <td>€${res[i].unitPrice}</td>
+                                            <td>€${res[i].unitPrice * res[i].quantity}</td>
                                         </tr>`;
                                         }
 
                                         htmlBodyTablaProductos += `<tr>
                                             <td>TOTAL</td>
-                                            <td>${sumaTotal}</td>
+                                            <td>€${sumaTotal}</td>
                                             <td></td>
                                             <td></td>
                                             <td></td>

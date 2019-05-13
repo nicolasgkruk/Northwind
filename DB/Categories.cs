@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 
 namespace DB
@@ -15,6 +16,7 @@ namespace DB
         public string Description { get; set; }
         public byte[] Picture { get; set; }
 
+        [JsonIgnore]
         public virtual ICollection<Products> Products { get; set; }
     }
 }

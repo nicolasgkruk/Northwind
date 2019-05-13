@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 
 namespace DB
@@ -23,6 +24,7 @@ namespace DB
 
         public virtual Categories Category { get; set; }
         public virtual Suppliers Supplier { get; set; }
+
         public virtual ICollection<Order_Details> Order_Details { get; set; }
     }
 }

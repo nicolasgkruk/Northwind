@@ -1,7 +1,42 @@
-﻿
-@{
-    ViewData["Title"] = "Index";
+﻿@{
+    ViewBag.Title = "Listado de Productos";
+}
+@section scripts {
+    <script>
+        $(document).ready(function () {
+            site.Init.Productos.Listado();
+        });
+    </script>
 }
 
-<h1>Index</h1>
+<br />
+
+<div id="modal-body"></div>
+<div class="row">
+    <div class="col-md-12">
+        <a class="btn btn-success" href="/productos/nuevo">Nuevo Producto</a>
+    </div>
+</div>
+<br />
+<div class="tabla-productos" style="display:none;">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <td><b>Referencia</b></td>
+                <td><b>Nombre</b></td>
+                <td><b>Categoría</b></td>
+                <td><b>Stock</b></td>
+                <td><b>Stock Pendiente</b></td>
+                <td><b>Precio</b></td>
+                <td><b>Operaciones</b></td>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+</div>
+<div class="ajax-loader text-center">
+    <img src="~/img/ajax-loader.gif" /> Cargando datos, por favor espere un momento.
+</div>
+<br />
+<br />
 
