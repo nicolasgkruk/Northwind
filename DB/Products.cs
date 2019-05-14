@@ -24,7 +24,7 @@ namespace DB
 
         public virtual Categories Category { get; set; }
         public virtual Suppliers Supplier { get; set; }
-
+        [JsonIgnore]
         public virtual ICollection<Order_Details> Order_Details { get; set; }
     }
 }

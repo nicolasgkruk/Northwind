@@ -20,16 +20,6 @@ namespace API.Controllers
             _context = context;
         }
 
-        // GET: api/Orders
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<Orders>>> GetOrders()
-        {
-            return await _context.Orders
-                .Include(x => x.Customer)
-                .Include(x => x.ShipViaNavigation)
-                .ToListAsync();
-        }
-
 
         // GET: api/Customers/ANATR/Orders
         [HttpGet("{id}/OrderDetails")]
@@ -39,6 +29,106 @@ namespace API.Controllers
                 .Include(x => x.Product)
                 .ToListAsync();
         }
+
+        // GET: api/Orders/Countries
+        [HttpGet("Countries")]
+        public async Task<ActionResult<IEnumerable<string>>> GetCountriesInOrders()
+        {
+            return await _context.Orders
+                .Select(r => r.ShipCountry)
+                .Distinct()
+                .OrderBy(r => r)
+                .ToListAsync();
+        }
+
+
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<Orders>>> GetOrders([FromQuery] string cliente, [FromQuery] string producto, [FromQuery] string pais)
+        {
+            if ((cliente == null || cliente == "") && (producto == "" || producto == null) && (pais == "" || pais == null || pais == "all"))
+            {
+                return await _context.Orders
+                .Include(x => x.Customer)
+                .Include(x => x.ShipViaNavigation)
+                .ToListAsync();
+            }
+            else if ((cliente != "" && cliente != null) && (producto == "" || producto == null) && (pais == "" || pais == null || pais == "all"))
+            {
+                return await _context.Orders
+                    .Where(r => r.ShipName.Contains(cliente))
+                    .Include(r => r.Customer)
+                    .Include(r => r.ShipViaNavigation)
+                    .ToListAsync();
+            }
+            else if ((cliente == null || cliente == "") && (producto != "" && producto != null) && (pais == "" || pais == null || pais == "all"))
+            {
+                return await _context.Orders                   
+                    .Include(a => a.Order_Details)
+                    .Include("Order_Details.Product")
+                    .Where(r => r.Order_Details
+                    .Count(h => h.Product.ProductName.Contains(producto)) > 0)
+                    .Include(r => r.Customer)
+                    .Include(r => r.ShipViaNavigation)
+                    .ToListAsync();
+            }
+            else if ((cliente == null || cliente == "") && (producto == "" || producto == null) && (pais != "" && pais != null && pais != "all"))
+            {
+                return await _context.Orders
+                    .Where(r => r.ShipCountry == pais)
+                    .Include(x => x.Customer)
+                    .Include(x => x.ShipViaNavigation)
+                    .ToListAsync();
+            }
+            else if ((cliente != "" && cliente != null) && (producto != "" && producto != null) && (pais == "" || pais == null || pais == "all"))
+            {
+                return await _context.Orders         
+                    .Include(a => a.Order_Details)
+                    .Include("Order_Details.Product")
+                    .Where(r => r.ShipName.Contains(cliente) &&
+                                r.Order_Details
+                    .Count(h => h.Product.ProductName.Contains(producto)) > 0)
+                    .Include(r => r.Customer)
+                    .Include(r => r.ShipViaNavigation)
+                    .ToListAsync();
+            }
+            else if ((cliente != "" && cliente != null) && (producto == "" || producto == null) && (pais != "" && pais != null && pais != "all"))
+            {
+                return await _context.Orders
+                    .Where(r => r.ShipName.Contains(cliente) && r.ShipCountry == pais)
+                    .Include(x => x.ShipViaNavigation)
+                    .Include(x => x.Customer)
+                    .ToListAsync();
+            }
+            else if ((cliente == null || cliente == "") && (producto != "" && producto != null) && (pais != "" && pais != null && pais != "all"))
+            {
+                return await _context.Orders                
+                     .Include(a => a.Order_Details)
+                     .Include("Order_Details.Product")
+                     .Where(r => r.ShipCountry == pais &&
+                                 r.Order_Details
+                     .Count(h => h.Product.ProductName.Contains(producto)) > 0)
+                     .Include(r => r.Customer)
+                     .Include(r => r.ShipViaNavigation)
+                     .ToListAsync();
+            }
+            else if ((cliente != "" && cliente != null) && (producto != "" && producto != null) && (pais != "" && pais != null && pais != "all"))
+            {
+                return await _context.Orders
+                     .Include(a => a.Order_Details)
+                     .Include("Order_Details.Product")
+                     .Where(r => r.ShipCountry == pais &&
+                                 r.ShipName.Contains(cliente) &&
+                                 r.Order_Details
+                     .Count(h => h.Product.ProductName.Contains(producto)) > 0)
+                     .Include(r => r.Customer)
+                     .Include(r => r.ShipViaNavigation)
+                     .ToListAsync();
+            }
+
+
+            return NotFound();
+        }
+
 
         // GET: api/Orders/5
         [HttpGet("{id}")]

@@ -1,5 +1,4 @@
-﻿
-module.exports = {
+﻿module.exports = {
     Init: {
         DataTable:
             (notOrderedColumn) => {
@@ -11,19 +10,19 @@ module.exports = {
                 });
             },
 
-            Clientes: {
-                Listado: () => {
-                    $.ajax({
-                        url: 'https://localhost:44394/api/customers/',
-                        type: 'get',
-                        contentType: 'application/json',
-                        beforeSend: () => {
-                            $('.ajax-loader').show();                         
-                        },
-                        success: function (res) {
-                            let html = "";
-                            for (var i = 0; i < res.length; i++) {
-                                html += `<tr data-fila="${res[i].customerID}">
+        Clientes: {
+            Listado: () => {
+                $.ajax({
+                    url: 'https://localhost:44394/api/customers/',
+                    type: 'get',
+                    contentType: 'application/json',
+                    beforeSend: () => {
+                        $('.ajax-loader').show();
+                    },
+                    success: (res) => {
+                        let html = "";
+                        for (var i = 0; i < res.length; i++) {
+                            html += `<tr data-fila="${res[i].customerID}">
                                 <td><a href="/clientes/ficha/${res[i].customerID}">${res[i].customerID}</a></td>
                                 <td>${res[i].companyName}</td>
                                 <td>
@@ -40,40 +39,40 @@ module.exports = {
                                     <button data-id="${res[i].customerID}" type="button" class="btn btn-danger btn-sm boton-eliminar">Borrar</button>
                                     <button data-id="${res[i].customerID}" class="btn btn-primary btn-sm boton-pedidos">Pedidos</button></td>
                             </tr>`;
-                            };
+                        };
 
-                            $('tbody').html(html);
-                            module.exports.Process.Clientes.Listado.MostrarPedidos();                      
-                            module.exports.Init.DataTable(5);
-                            $('.ajax-loader').hide();
-                            $('.tabla-clientes').show();
+                        $('tbody').html(html);
+                        module.exports.Process.Clientes.Listado.MostrarPedidos();
+                        module.exports.Init.DataTable(5);
+                        $('.ajax-loader').hide();
+                        $('.tabla-clientes').show();
 
-                        },
-                        error: (e) => {
-                            alert("Ha habido un problema y hemos sido incapaces de recuperar la lista de clientes. Por favor vuelva a intentarlo nuevamente o contactese con el administrador del sitio.");
-                            $('.ajax-loader').hide();                          
-                            window.location.assign(`https://${window.location.host}/`);
-                        },
-                        complete: (e) => {
-                            $('.ajax-loader').hide();
-                            $('.tabla-clientes').show();
-                        }
-                    });
-                },
-                Nuevo: () => {
+                    },
+                    error: (e) => {
+                        alert("Ha habido un problema y hemos sido incapaces de recuperar la lista de clientes. Por favor vuelva a intentarlo nuevamente o contactese con el administrador del sitio.");
+                        $('.ajax-loader').hide();
+                        window.location.assign(`https://${window.location.host}/`);
+                    },
+                    complete: (e) => {
+                        $('.ajax-loader').hide();
+                        $('.tabla-clientes').show();
+                    }
+                });
+            },
+            Nuevo: () => {
 
-                    $("input.CustomerID").change((e) => {
-                        if ($.trim($("input.CustomerID").val()) !== "") {
-                            $("span.CustomerID").html("");
-                        }
-                    })
+                $("input.CustomerID").change((e) => {
+                    if ($.trim($("input.CustomerID").val()) !== "") {
+                        $("span.CustomerID").html("");
+                    }
+                })
 
-                    $("input.CompanyName").change((e) => {
-                        if ($.trim($("input.CompanyName").val()) !== "") {
-                            $("span.CompanyName").html("");
-                        }
-                    })
-
+                $("input.CompanyName").change((e) => {
+                    if ($.trim($("input.CompanyName").val()) !== "") {
+                        $("span.CompanyName").html("");
+                    }
+                })
+                    ,
                     $(".nuevo-cliente").click((e) => {
 
                         const customerID = $.trim($("input.CustomerID").val());
@@ -103,7 +102,7 @@ module.exports = {
 
                         if (companyName === "") {
                             invalidFields++;
-                            $("span.CompanyName").html("Este campo es obligatorio. Por favor no lo dejes vacío.");    
+                            $("span.CompanyName").html("Este campo es obligatorio. Por favor no lo dejes vacío.");
                         } else {
                             $("span.CompanyName").html("");
                         }
@@ -139,7 +138,7 @@ module.exports = {
                             beforeSend: () => {
                                 $('.ajax-loader').show();
                             },
-                            success: function (res) {
+                            success: (res) => {
                                 alert("Cliente creado exitosamente. Redireccionando al listado.")
                                 window.location.assign(`https://${window.location.host}/clientes/`);
                             },
@@ -152,22 +151,23 @@ module.exports = {
                             }
                         });
                     })
-                }
-                
-            },
-            Pedidos: {
-                Listado: () => {
-                    $.ajax({
-                        url: 'https://localhost:44394/api/orders/',
-                        type: 'get',
-                        contentType: 'application/json',
-                        beforeSend: () => {
-                            $('.ajax-loader').show();
-                        },
-                        success: function (res) {
-                            let html = "";
-                            for (var i = 0; i < res.length; i++) {
-                                html += `<tr>
+            }
+
+        },
+
+        Pedidos: {
+            Listado: () => {
+                $.ajax({
+                    url: 'https://localhost:44394/api/orders/',
+                    type: 'get',
+                    contentType: 'application/json',
+                    beforeSend: () => {
+                        $('.ajax-loader').show();
+                    },
+                    success: (res) => {
+                        let html = "";
+                        for (var i = 0; i < res.length; i++) {
+                            html += `<tr>
                                                 <td><a href="/pedidos/ficha/${res[i].orderID}">${res[i].orderID}</a></td>
                                                 <td>${res[i].orderDate}</td>
                                                 <td>${res[i].shippedDate}</td>
@@ -182,29 +182,60 @@ module.exports = {
                                     <button data-id="${res[i].orderID}" type="button" class="btn btn-danger btn-sm boton-eliminar">Borrar</button>
                                     <button data-id="${res[i].orderID}" class="btn btn-primary btn-sm boton-productos">Detalle de productos</button></td>
                                                 </tr>`;
-                            };
+                        };
 
-                            $('tbody').html(html);
-                            module.exports.Process.Pedidos.Listado.MostrarProductos();
-                            module.exports.Init.DataTable(5);
-                            $('.ajax-loader').hide();
-                            $('.tabla-pedidos').show();
+                        $('tbody').html(html);
+                        module.exports.Process.Pedidos.Listado.MostrarProductos();
+                        module.exports.Init.DataTable(5);
+                        $('.ajax-loader').hide();
+                        $('.tabla-pedidos').show();
 
-                        },
-                        error: (e) => {
-                            alert("Ha habido un problema y hemos sido incapaces de recuperar la lista de pedidos. Por favor vuelva a intentarlo nuevamente o contactese con el administrador del sitio.");
-                            $('.ajax-loader').hide();
-                            window.location.assign(`https://${window.location.host}/`);
-                        },
-                        complete: (e) => {
-                            $('.ajax-loader').hide();
-                            $('.tabla-pedidos').show();
-                        }
-                    });
-                }
+                    },
+                    error: (e) => {
+                        alert("Ha habido un problema y hemos sido incapaces de recuperar la lista de pedidos. Por favor vuelva a intentarlo nuevamente o contactese con el administrador del sitio.");
+                        $('.ajax-loader').hide();
+                        window.location.assign(`https://${window.location.host}/`);
+                    },
+                    complete: (e) => {
+                        $('.ajax-loader').hide();
+                        $('.tabla-pedidos').show();
+                    }
+                });
             },
+            Buscar: () => {
+                let htmlSelectPaises = "";
+                $.ajax({
+                    url: 'https://localhost:44394/api/orders/countries',
+                    type: 'get',
+                    contentType: 'application/json',
+                    beforeSend: () => {
+                        $('.ajax-loader').show();
+                    },
+                    success: (res) => {
+                        htmlSelectPaises += `<option value="all">Todos los Paises</option>`;
+                        for (var i = 0; i < res.length; i++) {
+                            htmlSelectPaises += `<option value="${res[i]}">${res[i]}</option>`;
+                        }
 
-            Productos: {
+                        module.exports.Process.Pedidos.Buscar();
+
+                        $(".Country").html(htmlSelectPaises);
+                        $(".busqueda-pedidos").show();
+                        $('.ajax-loader').hide();
+                    },
+                    error: () => {
+                        alert("Ha habido un problema y hemos sido incapaces de generar el formulario de búsqueda. Por favor vuelva a intentarlo nuevamente o contactese con el administrador del sitio.");
+                        $('.ajax-loader').hide();
+                        window.location.assign(`https://${window.location.host}/`);
+                    },
+                    complete: () => {
+                        $('.ajax-loader').hide();
+                    }
+                });          
+            }
+        },
+
+        Productos: {
                 Listado: () => {
                     $.ajax({
                         url: 'https://localhost:44394/api/products/',
@@ -213,7 +244,7 @@ module.exports = {
                         beforeSend: () => {
                             $('.ajax-loader').show();
                         },
-                        success: function (res) {
+                        success: (res) => {
                             let html = "";
                             for (var i = 0; i < res.length; i++) {
                                 html += `<tr>
@@ -247,23 +278,23 @@ module.exports = {
                     });
                 }
             }
-            
-        },
-        Process: {
-            Clientes: {
-                Listado: {
-                    MostrarPedidos:
-                        () => {
-                            // Click listener de botón que lleva a modal con pedidos por cliente.
-                            $('.boton-pedidos').click((e) => {
-                                const id = $(e.target).data('id');
-                                $.ajax({
-                                    url: "https://localhost:44394/api/Customers/" + id + "/Orders/",
-                                    type: 'get',
-                                    contentType: 'application/json',
-                                    success: (res) => {
-                                        let htmlTablaPedidos = "";
-                                        htmlTablaPedidos += `<table class="table table-striped tabla-pedidos">
+        
+    },
+    Process: {
+        Clientes: {
+            Listado: {
+                MostrarPedidos:
+                    () => {
+                        // Click listener de botón que lleva a modal con pedidos por cliente.
+                        $('.boton-pedidos').click((e) => {
+                            const id = $(e.target).data('id');
+                            $.ajax({
+                                url: "https://localhost:44394/api/Customers/" + id + "/Orders/",
+                                type: 'get',
+                                contentType: 'application/json',
+                                success: (res) => {
+                                    let htmlTablaPedidos = "";
+                                    htmlTablaPedidos += `<table class="table table-striped tabla-pedidos">
                                         <thead>
                                             <tr>
                                                 <td><b>ID Pedido</b></td>
@@ -276,11 +307,11 @@ module.exports = {
                                         <tbody>
                                         </tbody>
                                     </table>`;
-                                        $('.modal-body').html(htmlTablaPedidos);
-                                        let htmlBodyTablaPedidos = "";
+                                    $('.modal-body').html(htmlTablaPedidos);
+                                    let htmlBodyTablaPedidos = "";
 
-                                        for (var i = 0; i < res.length; i++) {
-                                            htmlBodyTablaPedidos += `<tr>
+                                    for (var i = 0; i < res.length; i++) {
+                                        htmlBodyTablaPedidos += `<tr>
                                             <td><a href="/pedidos/ficha/${res[i].orderID}">${res[i].orderID}</a></td>
                                             <td>${res[i].orderDate}</td>
                                             <td>${res[i].shippedDate}</td>
@@ -291,41 +322,42 @@ module.exports = {
                                             </td>
                                             <td>${res[i].shipViaNavigation.companyName}</td>
                                             </tr>`;
-                                        }
-
-                                        $('.tabla-pedidos tbody').html(htmlBodyTablaPedidos);
-                                    },
-                                    error: (err) => {
-                                        $('.modal-body').html("Ha habido un problema y no hemos podido recuperar los pedidos de este cliente. Disculpe las molestias. Por favor: intentelo nuevamente o bien contacte al administrador del sitio.")
-                                    },
-                                    complete: () => {
-                                        $('.modal-title').html('Listado de Pedidos');
-                                        $('#md100').html('Cerrar');
-                                        $('#md200').hide();
-                                        $('#modal').on('hidden.bs.modal', (e) => {
-                                            $('#md200').show();
-                                        });
-                                        $('#modal').modal('show');
                                     }
-                                })
+
+                                    $('.tabla-pedidos tbody').html(htmlBodyTablaPedidos);
+                                },
+                                error: (err) => {
+                                    $('.modal-body').html("Ha habido un problema y no hemos podido recuperar los pedidos de este cliente. Disculpe las molestias. Por favor: intentelo nuevamente o bien contacte al administrador del sitio.")
+                                },
+                                complete: () => {
+                                    $('.modal-title').html('Listado de Pedidos');
+                                    $('#md100').html('Cerrar');
+                                    $('#md200').hide();
+                                    $('#modal').on('hidden.bs.modal', (e) => {
+                                        $('#md200').show();
+                                    });
+                                    $('#modal').modal('show');
+                                }
                             })
-                        }
-                }
-            },
-            Pedidos: {
-                Listado: {
-                    MostrarProductos:
-                        () => {
-                            // Click listener de botón que lleva a modal con pedidos por cliente.
-                            $('.boton-productos').click((e) => {
-                                const id = $(e.target).data('id');
-                                $.ajax({
-                                    url: "https://localhost:44394/api/Orders/" + id + "/OrderDetails/",
-                                    type: 'get',
-                                    contentType: 'application/json',
-                                    success: (res) => {
-                                        let htmlTablaProductos = "";
-                                        htmlTablaProductos += `<table class="tabla-productos table table-striped">
+                        })
+                    }
+            }
+        },
+
+        Pedidos: {
+            Listado: {
+                MostrarProductos:
+                    () => {
+                        // Click listener de botón que lleva a modal con pedidos por cliente.
+                        $('.boton-productos').click((e) => {
+                            const id = $(e.target).data('id');
+                            $.ajax({
+                                url: "https://localhost:44394/api/Orders/" + id + "/OrderDetails/",
+                                type: 'get',
+                                contentType: 'application/json',
+                                success: (res) => {
+                                    let htmlTablaProductos = "";
+                                    htmlTablaProductos += `<table class="tabla-productos table table-striped">
                                         <thead>
                                             <tr>
                                                 <td><b>ID Producto</b></td>
@@ -335,22 +367,22 @@ module.exports = {
                                                 <td><b>Precio total</b></td>
                                             </tr>
                                         </thead><tbody></tbody>`;
-                                        $('.modal-body').html(htmlTablaProductos);
-                                        let htmlBodyTablaProductos = "";
-                                        let sumaTotal = 0;
+                                    $('.modal-body').html(htmlTablaProductos);
+                                    let htmlBodyTablaProductos = "";
+                                    let sumaTotal = 0;
 
-                                        for (var i = 0; i < res.length; i++) {
-                                            sumaTotal += res[i].unitPrice * res[i].quantity;
-                                            htmlBodyTablaProductos += `<tr>
+                                    for (var i = 0; i < res.length; i++) {
+                                        sumaTotal += res[i].unitPrice * res[i].quantity;
+                                        htmlBodyTablaProductos += `<tr>
                                             <td>${res[i].productID}</td>
                                             <td>${res[i].product.productName}</td>
                                             <td>${res[i].quantity}</td>
                                             <td>€${res[i].unitPrice}</td>
                                             <td>€${res[i].unitPrice * res[i].quantity}</td>
                                         </tr>`;
-                                        }
+                                    }
 
-                                        htmlBodyTablaProductos += `<tr>
+                                    htmlBodyTablaProductos += `<tr>
                                             <td>TOTAL</td>
                                             <td>€${sumaTotal}</td>
                                             <td></td>
@@ -358,25 +390,86 @@ module.exports = {
                                             <td></td>
                                         </tr>`;
 
-                                        $('.tabla-productos tbody').html(htmlBodyTablaProductos);
-                                    },
-                                    error: (err) => {
-                                        $('.modal-body').html("Ha habido un problema y no hemos podido recuperar los productos de este pedido. Disculpe las molestias. Por favor: intentelo nuevamente o bien contacte al administrador del sitio.")
-                                    },
-                                    complete: () => {
-                                        $('.modal-title').html('Listado de Productos en este pedido');
-                                        $('#md100').html('Cerrar');
-                                        $('#md200').hide();
-                                        $('#modal').on('hidden.bs.modal', (e) => {
-                                            $('#md200').show();
-                                        });
-                                        $('#modal').modal('show');                
-                                    }
-                                })
+                                    $('.tabla-productos tbody').html(htmlBodyTablaProductos);
+                                },
+                                error: (err) => {
+                                    $('.modal-body').html("Ha habido un problema y no hemos podido recuperar los productos de este pedido. Disculpe las molestias. Por favor: intentelo nuevamente o bien contacte al administrador del sitio.")
+                                },
+                                complete: () => {
+                                    $('.modal-title').html('Listado de Productos en este pedido');
+                                    $('#md100').html('Cerrar');
+                                    $('#md200').hide();
+                                    $('#modal').on('hidden.bs.modal', (e) => {
+                                        $('#md200').show();
+                                    });
+                                    $('#modal').modal('show');
+                                }
                             })
+                        })
+                    }
+            },
+            Buscar: () => {
+                // Click listener de botón que busca los pedidos en la api de acuerdo a los campos seleccionados y pinta la tabla con los resultados en caso de éxito.
+                $('.buscar-pedidos').click((e) => {
+                    $(".tabla-pedidos").hide();
+
+                    const customerName = $.trim($('.CustomerName').val());
+                    const productName = $.trim($('.ProductName').val());
+                    const country = $.trim($('.Country').val());
+                    const queryParams = [];
+                 
+                    if (customerName !== "") queryParams.push(`cliente=${customerName}`);
+                    if (productName !== "") queryParams.push(`producto=${productName}`);
+                    if (country !== "") queryParams.push(`pais=${country}`);
+                    
+                    let htmlTablaPedidos = "";
+                    const tablaResultados = $("table.dataTable");
+                    $.ajax({
+                        url: "https://localhost:44394/api/Orders?" + queryParams.join("&"),
+                        type: 'get',
+                        contentType: 'application/json',
+                        beforeSend: () => {
+                            $('.ajax-loader').show();
+                        },
+                        success: (res) => {                          
+                            if (tablaResultados.length !== 0) tablaResultados.DataTable().destroy();
+
+                            if (res.length > 0) {
+                                for (var i = 0; i < res.length; i++) {
+                                    htmlTablaPedidos += `<tr>
+                                                <td><a href="/pedidos/ficha/${res[i].orderID}">${res[i].orderID}</a></td>
+                                                <td>${res[i].orderDate}</td>
+                                                <td>${res[i].shippedDate}</td>
+                                                <td>${res[i].customer.companyName}</td>
+                                                <td>${res[i].shipViaNavigation.companyName}</td>
+                                                <td><a class="btn btn-success btn-sm" href="/pedidos/editar/${res[i].orderID}">Editar</a>
+                                        <button data-id="${res[i].orderID}" type="button" class="btn btn-danger btn-sm boton-eliminar">Borrar</button>
+                                        <button data-id="${res[i].orderID}" class="btn btn-primary btn-sm boton-productos">Detalle de productos</button></td>
+                                            </tr>`;
+                                }
+                                $(".tabla-pedidos tbody").html(htmlTablaPedidos);
+                                module.exports.Process.Pedidos.Listado.MostrarProductos();
+                            }
+
+                            else {
+                                $(".tabla-pedidos tbody").html("");
+                            }
+                                                     
+                            $(".tabla-pedidos").show();
+                            module.exports.Init.DataTable(5),                      
+                            $('.ajax-loader').hide();
+                        },
+                        error: () => {
+                            alert("Ha habido un problema y hemos sido incapaces de generar la búsqueda de pedidos indicada. Por favor vuelva a intentarlo nuevamente o contactese con el administrador del sitio.");
+                            $('.ajax-loader').hide();
+                        },
+                        complete: () => {
+                            $('.ajax-loader').hide();
                         }
-                }
+
+                    })
+                })
             }
         }
+    }
 }
-
