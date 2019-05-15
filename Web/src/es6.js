@@ -342,7 +342,7 @@
                         $('#md200').off();
                         $('#md200').click((e) => {
 
-                            $('.modal-body').html(`<div class="text-center">Eliminando cliente, por favor espere un momento.</div>`);
+                            $('.modal-body').html(`<div class="text-center"><img src="https://${window.location.host}/img/ajax-loader.gif" /> Eliminando cliente, por favor espere un momento.</div>`);
 
                             $.ajax({
                                 url: "https://localhost:44394/api/Customers/" + id,
