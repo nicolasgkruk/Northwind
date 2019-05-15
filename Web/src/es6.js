@@ -36,24 +36,22 @@
                                 </td>
                                 <td>
                                     <a class="btn btn-success btn-sm" href="/clientes/editar/${res[i].customerID}">Editar</a>
-                                    <button data-id="${res[i].customerID}" type="button" class="btn btn-danger btn-sm boton-eliminar">Borrar</button>
+                                    <button data-nombre="${res[i].companyName}" data-id="${res[i].customerID}" type="button" class="btn btn-danger btn-sm boton-eliminar">Borrar</button>
                                     <button data-id="${res[i].customerID}" class="btn btn-primary btn-sm boton-pedidos">Pedidos</button></td>
                             </tr>`;
                         };
 
                         $('tbody').html(html);
                         module.exports.Process.Clientes.Listado.MostrarPedidos();
+                        module.exports.Process.Clientes.Listado.Borrar();
                         module.exports.Init.DataTable(5);
-                        $('.ajax-loader').hide();
-                        $('.tabla-clientes').show();
-
                     },
                     error: (e) => {
                         alert("Ha habido un problema y hemos sido incapaces de recuperar la lista de clientes. Por favor vuelva a intentarlo nuevamente o contactese con el administrador del sitio.");
                         $('.ajax-loader').hide();
                         window.location.assign(`https://${window.location.host}/`);
                     },
-                    complete: (e) => {
+                    complete: () => {
                         $('.ajax-loader').hide();
                         $('.tabla-clientes').show();
                     }
@@ -144,9 +142,8 @@
                             },
                             error: (e) => {
                                 alert("Ha habido un problema y hemos sido incapaces de agregar tu nuevo cliente. Por favor vuelva a intentarlo nuevamente o contactese con el administrador del sitio.");
-                                $('.ajax-loader').hide();
                             },
-                            complete: (e) => {
+                            complete: () => {
                                 $('.ajax-loader').hide();
                             }
                         });
@@ -185,16 +182,13 @@
                         $('tbody').html(html);
                         module.exports.Process.Pedidos.Listado.MostrarProductos();
                         module.exports.Init.DataTable(5);
-                        $('.ajax-loader').hide();
-                        $('.tabla-pedidos').show();
 
                     },
                     error: (e) => {
                         alert("Ha habido un problema y hemos sido incapaces de recuperar la lista de pedidos. Por favor vuelva a intentarlo nuevamente o contactese con el administrador del sitio.");
-                        $('.ajax-loader').hide();
                         window.location.assign(`https://${window.location.host}/`);
                     },
-                    complete: (e) => {
+                    complete: () => {
                         $('.ajax-loader').hide();
                         $('.tabla-pedidos').show();
                     }
@@ -219,33 +213,31 @@
 
                         $(".Country").html(htmlSelectPaises);
                         $(".busqueda-pedidos").show();
-                        $('.ajax-loader').hide();
                     },
                     error: () => {
                         alert("Ha habido un problema y hemos sido incapaces de generar el formulario de búsqueda. Por favor vuelva a intentarlo nuevamente o contactese con el administrador del sitio.");
-                        $('.ajax-loader').hide();
                         window.location.assign(`https://${window.location.host}/`);
                     },
                     complete: () => {
                         $('.ajax-loader').hide();
                     }
-                });          
+                });
             }
         },
 
         Productos: {
-                Listado: () => {
-                    $.ajax({
-                        url: 'https://localhost:44394/api/products/',
-                        type: 'get',
-                        contentType: 'application/json',
-                        beforeSend: () => {
-                            $('.ajax-loader').show();
-                        },
-                        success: (res) => {
-                            let html = "";
-                            for (var i = 0; i < res.length; i++) {
-                                html += `<tr>
+            Listado: () => {
+                $.ajax({
+                    url: 'https://localhost:44394/api/products/',
+                    type: 'get',
+                    contentType: 'application/json',
+                    beforeSend: () => {
+                        $('.ajax-loader').show();
+                    },
+                    success: (res) => {
+                        let html = "";
+                        for (var i = 0; i < res.length; i++) {
+                            html += `<tr>
                                     <td>${res[i].productID}</td>
                                     <td>${res[i].productName}</td>
                                     <td class="text-center">${res[i].category.categoryName}</td>
@@ -253,31 +245,26 @@
                                     <td class="text-right">${res[i].unitsOnOrder}</td>
                                     <td class="text-right">€${res[i].unitPrice}</td>
                             </tr>`;
-                            };
+                        };
 
-                            $('tbody').html(html);
+                        $('tbody').html(html);
 
-                            $('table').DataTable({
-                                language: { url: '//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json' }
-                            });
-
-                            $('.ajax-loader').hide();
-                            $('.tabla-productos').show();
-
-                        },
-                        error: (e) => {
-                            alert("Ha habido un problema y hemos sido incapaces de recuperar la lista de productos. Por favor vuelva a intentarlo nuevamente o contactese con el administrador del sitio.");
-                            $('.ajax-loader').hide();
-                            window.location.assign(`https://${window.location.host}/`);
-                        },
-                        complete: (e) => {
-                            $('.ajax-loader').hide();
-                            $('.tabla-productos').show();
-                        }
-                    });
-                }
+                        $('table').DataTable({
+                            language: { url: '//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json' }
+                        });
+                    },
+                    error: (e) => {
+                        alert("Ha habido un problema y hemos sido incapaces de recuperar la lista de productos. Por favor vuelva a intentarlo nuevamente o contactese con el administrador del sitio.");
+                        window.location.assign(`https://${window.location.host}/`);
+                    },
+                    complete: () => {
+                        $('.ajax-loader').hide();
+                        $('.tabla-productos').show();
+                    }
+                });
             }
-        
+        }
+
     },
     Process: {
         Clientes: {
@@ -339,10 +326,48 @@
                                 }
                             })
                         })
-                    }
+                    },
+                Borrar: () => {
+                    // Click listener de botón borrar cliente en el listado.
+                    $('.boton-eliminar').click((e) => {
+                        const id = $(e.target).data('id');
+                        const nombre = $(e.target).data('nombre');                
+
+                        $('.modal-title').html('Eliminar Cliente');
+                        $('.modal-body').html(`<br /><h4><b>Nombre: </b>${nombre}</h4><p style="font-size:120%">¿Desea eliminar el cliente?</p>`);
+                        $('#md100').html('No');
+                        $('#md200').html('Si');
+
+                        //Quitar el evento click antes del agregado del evento click.
+                        $('#md200').off();
+                        $('#md200').click((e) => {
+
+                            $('.modal-body').html(`<div class="text-center">Eliminando cliente, por favor espere un momento.</div>`);
+
+                            $.ajax({
+                                url: "https://localhost:44394/api/Customers/" + id,
+                                type: 'delete',
+                                contentType: 'application/json',
+                                success: (res) => {                                  
+                                    $("table").DataTable().row($('tr[data-fila="' + id + '"]')).remove().draw(false);
+                                    $('#modal').modal('hide');
+                                },
+                                error: (err) => {
+                                    alert("Ha habido un problema y no hemos podido eliminar este cliente. Disculpe las molestias. Por favor: intentelo nuevamente o bien contacte al administrador del sitio.");
+                                    console.log(err);
+                                },
+                                complete: (e) => {
+                                    $('#modal').modal('hide');
+                                    // Y también quitar el evento luego del click.
+                                    $('#md200').off();
+                                }
+                            });
+                        });
+                        $('#modal').modal('show');
+                    })
+                }
             }
         },
-
         Pedidos: {
             Listado: {
                 MostrarProductos:
@@ -416,11 +441,11 @@
                     const productName = $.trim($('.ProductName').val());
                     const country = $.trim($('.Country').val());
                     const queryParams = [];
-                 
+
                     if (customerName !== "") queryParams.push(`cliente=${customerName}`);
                     if (productName !== "") queryParams.push(`producto=${productName}`);
                     if (country !== "") queryParams.push(`pais=${country}`);
-                    
+
                     let htmlTablaPedidos = "";
                     const tablaResultados = $("table.dataTable");
                     $.ajax({
@@ -430,7 +455,7 @@
                         beforeSend: () => {
                             $('.ajax-loader').show();
                         },
-                        success: (res) => {                          
+                        success: (res) => {
                             if (tablaResultados.length !== 0) tablaResultados.DataTable().destroy();
 
                             if (res.length > 0) {
@@ -452,19 +477,16 @@
                             else {
                                 $(".tabla-pedidos tbody").html("");
                             }
-                                                     
+
                             $(".tabla-pedidos").show();
-                            module.exports.Init.DataTable(5),                      
-                            $('.ajax-loader').hide();
+                            module.exports.Init.DataTable(5);
                         },
                         error: () => {
                             alert("Ha habido un problema y hemos sido incapaces de generar la búsqueda de pedidos indicada. Por favor vuelva a intentarlo nuevamente o contactese con el administrador del sitio.");
-                            $('.ajax-loader').hide();
                         },
                         complete: () => {
                             $('.ajax-loader').hide();
                         }
-
                     })
                 })
             }
