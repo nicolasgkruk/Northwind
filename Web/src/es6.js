@@ -169,17 +169,15 @@
                         for (var i = 0; i < res.length; i++) {
                             html += `<tr>
                                                 <td><a href="/pedidos/ficha/${res[i].orderID}">${res[i].orderID}</a></td>
-                                                <td>${res[i].orderDate}</td>
-                                                <td>${res[i].shippedDate}</td>
+                                                <td>${res[i].orderDate !== null ? res[i].orderDate.substring(0, 10) : ""}</td>
+                                                <td>${res[i].shippedDate !== null ? res[i].shippedDate.substring(0, 10) : ""}</td>
                                                 <td>
                                                     ${res[i].customer.companyName}<br />
                                                     <small>${res[i].shipAddress}</small><br />
                                                     <small>${res[i].shipCity} (${res[i].shipCountry})</small>
                                                 </td>
                                                 <td>${res[i].shipViaNavigation.companyName}</td>
-                                            <td>
-                                    <a class="btn btn-success btn-sm" href="/pedidos/editar/${res[i].orderID}">Editar</a>
-                                    <button data-id="${res[i].orderID}" type="button" class="btn btn-danger btn-sm boton-eliminar">Borrar</button>
+                                            <td>                                  
                                     <button data-id="${res[i].orderID}" class="btn btn-primary btn-sm boton-productos">Detalle de productos</button></td>
                                                 </tr>`;
                         };
@@ -253,15 +251,16 @@
                                     <td class="text-center">${res[i].category.categoryName}</td>
                                     <td class="text-right">${res[i].unitsInStock}</td>
                                     <td class="text-right">${res[i].unitsOnOrder}</td>
-                                    <td class="text-right">${res[i].unitPrice}</td>
-                                <td>
-                                    <a class="btn btn-success btn-sm" href="/productos/editar/${res[i].productID}">Editar</a>
-                                    <button data-id="${res[i].productID}" type="button" class="btn btn-danger btn-sm boton-eliminar">Borrar</button>
+                                    <td class="text-right">€${res[i].unitPrice}</td>
                             </tr>`;
                             };
 
                             $('tbody').html(html);
-                            module.exports.Init.DataTable(6);
+
+                            $('table').DataTable({
+                                language: { url: '//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json' }
+                            });
+
                             $('.ajax-loader').hide();
                             $('.tabla-productos').show();
 
@@ -438,12 +437,11 @@
                                 for (var i = 0; i < res.length; i++) {
                                     htmlTablaPedidos += `<tr>
                                                 <td><a href="/pedidos/ficha/${res[i].orderID}">${res[i].orderID}</a></td>
-                                                <td>${res[i].orderDate}</td>
-                                                <td>${res[i].shippedDate}</td>
+                                                <td>${res[i].orderDate !== null ? res[i].orderDate.substring(0, 10) : ""}</td>
+                                                <td>${res[i].shippedDate !== null ? res[i].shippedDate.substring(0, 10) : ""}</td>
                                                 <td>${res[i].customer.companyName}</td>
                                                 <td>${res[i].shipViaNavigation.companyName}</td>
-                                                <td><a class="btn btn-success btn-sm" href="/pedidos/editar/${res[i].orderID}">Editar</a>
-                                        <button data-id="${res[i].orderID}" type="button" class="btn btn-danger btn-sm boton-eliminar">Borrar</button>
+                                                <td>
                                         <button data-id="${res[i].orderID}" class="btn btn-primary btn-sm boton-productos">Detalle de productos</button></td>
                                             </tr>`;
                                 }

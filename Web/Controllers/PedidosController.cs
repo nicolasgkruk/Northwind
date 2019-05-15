@@ -13,12 +13,12 @@ namespace Web.Controllers
             return View();
         }
 
-        public IActionResult Nuevo()
+        public IActionResult Buscar()
         {
             return View();
         }
 
-        public IActionResult Buscar()
+        public IActionResult Ficha()
         {
             return View();
         }

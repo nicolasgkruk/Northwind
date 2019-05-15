@@ -12,10 +12,5 @@ namespace Web.Controllers
         {
             return View();
         }
-
-        public IActionResult Nuevo()
-        {
-            return View();
-        }
     }
 }

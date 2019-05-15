@@ -13,6 +13,16 @@ namespace Web.Controllers
             return View();
         }
 
+        public IActionResult Editar()
+        {
+            return View();
+        }
+
+        public IActionResult Ficha()
+        {
+            return View();
+        }
+
         public IActionResult Nuevo()
         {
             return View();
