@@ -1,7 +1,59 @@
-﻿
+﻿@model DB.Orders
+
 @{
-    ViewData["Title"] = "Ficha";
+    ViewBag.Title = "Ficha de Pedido";
 }
 
-<h1>Ficha</h1>
+@section scripts {
+    <script>
+        $(document).ready(() => {
+            $('table').DataTable({
+                language: { url: '//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json' }
+            });
+        });
+    </script>
+}
 
+<br />
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3><b>Ficha del Pedido @Model.OrderID</b></h3>
+    </div>
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-md-2"><b>Número de Pedido:</b></div>
+            <div class="col-md-10">@Model.OrderID</div>
+        </div>
+        <div class="row">
+            <div class="col-md-2"><b>Fecha:</b></div>
+            <div class="col-md-10">@Model.OrderDate.Value.ToShortDateString()</div>
+        </div>
+        <div class="row">
+            <div class="col-md-2"><b>Envio:</b></div>
+            <div class="col-md-10">@(Model.ShippedDate.HasValue ? Model.ShippedDate.Value.ToShortDateString() : "" ) por <i>@Model.ShipViaNavigation.CompanyName</i></div>
+        </div>
+        <div class="row">
+            <div class="col-md-2"><b>Cliente:</b></div>
+            <div class="col-md-10">
+                <a href="/clientes/ficha/@Model.CustomerID">@Model.ShipName</a><br />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2"><b>Dirección:</b></div>
+            <div class="col-md-10">
+                @Model.ShipAddress<br />
+                @Model.ShipPostalCode @Model.ShipCity (@Model.ShipCountry)
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-md-2"><b>Gestionado por:</b></div>
+            <div class="col-md-10">@Model.Employee.FirstName @Model.Employee.LastName</div>
+        </div>
+    </div>
+</div>
+<br />
+
+<partial name="_ProductosPedido" model="Model.Order_Details" />
+
+<a asp-action="Index" class="btn btn-primary btn-sm">Volver al Listado</a>

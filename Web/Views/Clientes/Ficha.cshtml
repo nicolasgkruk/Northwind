@@ -1,10 +1,44 @@
-﻿@{
+﻿@model DB.Customers
+@{
     ViewBag.Title = "Ficha del Cliente";
 }
 @section scripts {
     <script>
         $(document).ready(function () {
-            demo.Init.Cliente.Ficha();
+            $.ajax({
+                url: "https://localhost:44394/api/Customers/" + "@Model.CustomerID" + "/orders/",
+                type: 'get',
+                contentType: 'application/json',
+                success: (res) => {                   
+                    let htmlBodyTablaPedidos = "";
+
+                    for (var i = 0; i < res.length; i++) {
+                        htmlBodyTablaPedidos += `<tr>
+                                            <td><a href="/pedidos/ficha/${res[i].orderID}">${res[i].orderID}</a></td>
+                                            <td>${res[i].orderDate !== null ? res[i].orderDate.substring(0, 10) : ""}</td>
+                                            <td>${res[i].shippedDate !== null ? res[i].shippedDate.substring(0, 10) : ""}</td>
+                                            <td>
+                                                ${res[i].customer.companyName}<br />
+                                                <small>${res[i].shipAddress}</small><br />
+                                                <small>${res[i].shipCity} (${res[i].shipCountry})</small>
+                                            </td>
+                                            <td>${res[i].shipViaNavigation.companyName}</td>
+                                            <td><button data-id="${res[i].orderID}" class="btn btn-primary btn-sm boton-productos">Detalle de productos</button></td>
+                                            </tr>`;
+                    }
+
+                    $('.tabla-pedidos tbody').html(htmlBodyTablaPedidos);
+                    site.Process.Pedidos.Listado.MostrarProductos();
+                    site.Init.DataTable(5);
+                    $("#pedidos").show();
+                },
+                error: (err) => {
+                    $('.modal-body').html("Ha habido un problema y no hemos podido recuperar los pedidos de este cliente. Disculpe las molestias. Por favor: intentelo nuevamente o bien contacte al administrador del sitio.")
+                },
+                complete: () => {
+                    $(".ajax-loader").hide();
+                }
+            })
         });
     </script>
 }
@@ -27,7 +61,7 @@
             <div class="col-md-10">@Model.ContactName (@Model.ContactTitle)</div>
         </div>
         <div class="row">
-            <div class="c ol-md-2"><b>Dirección:</b></div>
+            <div class="col-md-2"><b>Dirección:</b></div>
             <div class="col-md-10">
                 @Model.Address<br />
                 @Model.PostalCode @Model.City (@Model.Country)
@@ -40,21 +74,15 @@
     </div>
 </div>
 <br />
-@*@Html.Partial("_TablaPedidos", Model.Orders)*@
-@*@{ Html.RenderAction("pedidosporcliente", "pedidos", new { id = Model.CustomerID }); }*@
-@*@Ajax.ActionLink("Mostrar Pedidos",
-                        "PedidosPorCliente",
-                        "Pedidos",
-                        new { id = Model.CustomerID},
-                        new AjaxOptions() {
-                            HttpMethod = "GET",
-                            InsertionMode = InsertionMode.Replace,
-                            UpdateTargetId = "pedidos",
-                            OnSuccess = "demo.Process.Clientes.Ficha.MostrarPedidos()"
-                        },
-                        new { @class = "btn btn-success boton-pedidos" })*@
-<a href="/clientes" class="btn btn-success">Ir al Listado</a>
+
+<a asp-action="Editar" class="btn btn-success btn-sm" asp-route-id="@Model.CustomerID">Editar</a>
+<a asp-action="Index" class="btn btn-primary btn-sm">Volver al Listado</a>
+
 <br /><br />
-<div id="pedidos"></div> 
-<br />
-<br />
+
+<div class="ajax-loader text-center">
+    <img src="~/img/ajax-loader.gif" /> Cargando datos de pedidos de este cliente, por favor espere un momento.
+</div>
+
+
+<partial name="_TablaPedidos" />
