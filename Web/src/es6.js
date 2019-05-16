@@ -26,7 +26,7 @@
                                 <td><a href="/clientes/ficha/${res[i].customerID}">${res[i].customerID}</a></td>
                                 <td>${res[i].companyName}</td>
                                 <td>
-                                    ${res[i].companyName}<br />
+                                    ${res[i].contactName}<br />
                                     <small>${res[i].contactTitle}</small>
                                 </td>
                                 <td>${res[i].phone}</td>
@@ -189,7 +189,7 @@
                     },
                     complete: () => {
                         $('.ajax-loader').hide();
-                        $('.tabla-pedidos').show();
+                        $('#pedidos').show();
                     }
                 });
             },
@@ -434,7 +434,6 @@
             Buscar: () => {
                 // Click listener de botón que busca los pedidos en la api de acuerdo a los campos seleccionados y pinta la tabla con los resultados en caso de éxito.
                 $('.buscar-pedidos').click((e) => {
-                    $(".tabla-pedidos").hide();
 
                     const customerName = $.trim($('.CustomerName').val());
                     const productName = $.trim($('.ProductName').val());
@@ -477,7 +476,7 @@
                                 $(".tabla-pedidos tbody").html("");
                             }
 
-                            $(".tabla-pedidos").show();
+                            $("#pedidos").show();
                             module.exports.Init.DataTable(5);
                         },
                         error: () => {

@@ -11,9 +11,9 @@
 }
 <h1 class="page-header">Añadir nuevo cliente</h1>
 <div id="modal-body"></div>
-<br />
-<div class="panel panel-default">
-    <div class="panel-heading">Ficha de cliente</div>
+<div class="col-md-12" style="overflow: hidden;">
+    <div class="panel panel-default col-md-6">
+        <div class="panel-heading">Ficha de cliente</div>
         <div class="panel-body">
             <div class="form-group">
                 <label for="CustomerID">Identificador</label>
@@ -65,7 +65,7 @@
 
             <div class="form-group">
                 <label for="Country">País</label>
-                <input class="form-control text-box single-line Country" type="text" value="">
+                <select class="form-control text-box single-line Country" asp-items="ViewBag.Paises"></select>
                 <span class="field-validation-valid text-danger Country"></span>
             </div>
 
@@ -81,11 +81,14 @@
                 <span class="field-validation-valid text-danger Fax"></span>
             </div>
 
-    <div class="row">
-        <div class="col-md-12 text-right">
-            <button class="btn btn-success nuevo-cliente">Insertar</button>
+            <div class="row">
+                <div class="col-md-12 text-right">
+                    <button class="btn btn-success nuevo-cliente">Insertar</button>
+                    <a asp-action="Index" class="btn btn-primary">Volver al Listado</a>
+                </div>
+            </div>
         </div>
     </div>
-</div>
+
 </div>
 

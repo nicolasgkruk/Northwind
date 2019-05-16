@@ -1,107 +1,74 @@
-﻿@{
-    /**/
+﻿@model DB.Customers
 
-    ViewBag.Title = "Ficha de cliente";
-    //string controlador = ViewContext.RouteData.Values["controller"].ToString().ToLower().Trim();
-    //string accion = ViewContext.RouteData.Values["action"].ToString().ToLower().Trim();
+@{
+    ViewBag.Title = "Editar Cliente";
 }
 
+<h1 class="page-header">Editar Cliente</h1>
 
-@*@using (Html.BeginForm("accion", "controlador", FormMethod.Post, new { id = "valor"}))*@
-
-@*Creamos una etiqueta FORM con action sobre si misma y metodo POST*@
-@*@using (Html.BeginForm())*@
-{
-
-    @*<div class="form-group">
-            <label>Customer ID</label>
-            <div class="col-md-10">
-                <input type="text" name="" id="" class="form-control" />
-                <span class="text-danger">Mensaje error</span>
-            </div>
-        </div>*@
-    @*<div class="panel panel-default">
-        <div class="panel-heading">Ficha de cliente</div>*@
-
-        @*@if (ViewBag.Accion == "editar")
-        {
-            <h3><b>Ficha de @Model.CompanyName</b></h3>
-        }
-        else
-        {
-            <h3><b>Nuevo Cliente</b></h3>
-        }
-
+<div class="col-md-12" style="overflow: hidden;">
+    <div class="panel panel-default col-md-6">
+        <div class="panel-heading">Ficha de cliente</div>
         <div class="panel-body">
-            <div class="form-group">
-                @Html.LabelFor(model => model.CustomerID)
-                @Html.EditorFor(model => model.CustomerID, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.CustomerID, "", new { @class = "text-danger" })
-            </div>
-            <div class="form-group">
-                @Html.LabelFor(model => model.CompanyName)
-                @Html.EditorFor(model => model.CompanyName, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.CompanyName, "", new { @class = "text-danger" })
-            </div>
-            <div class="form-group">
-                @Html.LabelFor(model => model.ContactName)
-                @Html.EditorFor(model => model.ContactName, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.ContactName, "", new { @class = "text-danger" })
-            </div>
-            <div class="form-group">
-                @Html.LabelFor(model => model.ContactTitle)
-                @Html.EditorFor(model => model.ContactTitle, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.ContactTitle, "", new { @class = "text-danger" })
-            </div>
-            <div class="form-group">
-                @Html.LabelFor(model => model.Address)
-                @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
-            </div>
-            <div class="form-group">
-                @Html.LabelFor(model => model.City)
-                @Html.EditorFor(model => model.City, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.City, "", new { @class = "text-danger" })
-            </div>
-            <div class="form-group">
-                @Html.LabelFor(model => model.Region)
-                @Html.EditorFor(model => model.Region, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Region, "", new { @class = "text-danger" })
-            </div>
-            <div class="form-group">
-                @Html.LabelFor(model => model.PostalCode)
-                @Html.EditorFor(model => model.PostalCode, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.PostalCode, "", new { @class = "text-danger" })
-            </div>
-            <div class="form-group">
-                @Html.LabelFor(model => model.Country)
-                @Html.EditorFor(model => model.Country, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Country, "", new { @class = "text-danger" })
-            </div>
-            <div class="form-group">
-                @Html.LabelFor(model => model.Phone)
-                @Html.EditorFor(model => model.Phone, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Phone, "", new { @class = "text-danger" })
-            </div>
-            <div class="form-group">
-                @Html.LabelFor(model => model.Fax)
-                @Html.EditorFor(model => model.Fax, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Fax, "", new { @class = "text-danger" })
-            </div>
+            <form asp-antiforgery="true" asp-action="Editar" asp-route-id="@Model.CustomerID">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="CustomerID" />
+                <div class="form-group">
+                    <label asp-for="CompanyName" class="control-label"></label>
+                    <input asp-for="CompanyName" class="form-control text-box single-line" />
+                    <span asp-validation-for="CompanyName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ContactName" class="control-label"></label>
+                    <input asp-for="ContactName" class="form-control text-box single-line" />
+                    <span asp-validation-for="ContactName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ContactTitle" class="control-label"></label>
+                    <input asp-for="ContactTitle" class="form-control text-box single-line" />
+                    <span asp-validation-for="ContactTitle" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Address" class="control-label"></label>
+                    <input asp-for="Address" class="form-control text-box single-line" />
+                    <span asp-validation-for="Address" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="City" class="control-label"></label>
+                    <input asp-for="City" class="form-control text-box single-line" />
+                    <span asp-validation-for="City" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Region" class="control-label"></label>
+                    <input asp-for="Region" class="form-control text-box single-line" />
+                    <span asp-validation-for="Region" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="PostalCode" class="control-label"></label>
+                    <input asp-for="PostalCode" class="form-control text-box single-line" />
+                    <span asp-validation-for="PostalCode" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Country" class="control-label"></label>
+                    <select asp-for="Country" class="form-control text-box single-line" asp-items="ViewBag.Paises"></select>
+                    <span asp-validation-for="Country" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Phone" class="control-label"></label>
+                    <input asp-for="Phone" class="form-control text-box single-line" />
+                    <span asp-validation-for="Phone" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Fax" class="control-label"></label>
+                    <input asp-for="Fax" class="form-control text-box single-line" />
+                    <span asp-validation-for="Fax" class="text-danger"></span>
+                </div>
+                <div class="form-group text-right">
+                    <input type="submit" value="Guardar cambios" class="btn btn-success" />
+                    <a asp-action="Index" class="btn btn-primary">Volver al Listado</a>
+                </div>
+            </form>
         </div>
     </div>
-    <div class="row">
-        <div class="col-md-12 text-right">
-            @if (ViewBag.Accion == "editar")
-            {
-                <button class="btn btn-success">Modificar</button>
-            }
-            else
-            {
-                <button class="btn btn-success">Insertar</button>
-            }
-        </div>
-
-    </div>
-
-}*@
+</div>

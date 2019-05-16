@@ -53,14 +53,14 @@ namespace API.Controllers
 
         // PUT: api/Customers/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutCustomers(string id, Customers customers)
+        public async Task<IActionResult> PutCustomers(string id, Customers customer)
         {
-            if (id != customers.CustomerID)
+            if (id != customer.CustomerID)
             {
                 return BadRequest();
             }
 
-            _context.Entry(customers).State = EntityState.Modified;
+            _context.Entry(customer).State = EntityState.Modified;
 
             try
             {
