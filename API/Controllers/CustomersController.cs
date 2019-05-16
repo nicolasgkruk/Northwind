@@ -60,7 +60,7 @@ namespace API.Controllers
                 return BadRequest();
             }
 
-            _context.Entry(customer).State = EntityState.Modified;
+                _context.Entry(customer).State = EntityState.Modified;
 
             try
             {
@@ -88,6 +88,12 @@ namespace API.Controllers
             _context.Customers.Add(customers);
             try
             {
+
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest();
+                }
+
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateException)

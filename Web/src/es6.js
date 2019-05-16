@@ -58,16 +58,23 @@
                 });
             },
             Nuevo: () => {
+                const regx = /^[A-Za-z0-9 _.-]+$/;
 
-                $("input.CustomerID").change((e) => {
-                    if ($.trim($("input.CustomerID").val()) !== "") {
+
+                $("input.CustomerID").keyup((e) => {
+                    const customerID = $.trim($("input.CustomerID").val());
+                    if (customerID !== "" && customerID.length === 5 && regx.test(customerID)) {
                         $("span.CustomerID").html("");
+                    } else {
+                        $("span.CustomerID").html("Este campo no se puede dejar vacío y además debe tener una longitud exacta de 5 caracteres, sin incluir espacios ni símbolos (solo se permiten números o letras).");
                     }
                 })
 
-                $("input.CompanyName").change((e) => {
+                $("input.CompanyName").keyup((e) => {
                     if ($.trim($("input.CompanyName").val()) !== "") {
                         $("span.CompanyName").html("");
+                    } else {
+                        $("span.CompanyName").html("Este campo es obligatorio. Por favor no lo dejes vacío.");
                     }
                 })
                     ,
@@ -81,19 +88,15 @@
                         const city = $.trim($("input.City").val());
                         const region = $.trim($("input.Region").val());
                         const postalCode = $.trim($("input.PostalCode").val());
-                        const country = $.trim($("input.Country").val());
+                        const country = $("select.Country").val();
                         const phone = $.trim($("input.Phone").val());
                         const fax = $.trim($("input.Fax").val());
 
-
-
-
                         let invalidFields = 0;
 
-                        // Individual field validation and validation message setting.
-                        if (customerID === "") {
+                        if (customerID === "" || customerID.length !== 5 || !regx.test(customerID)) {
                             invalidFields++;
-                            $("span.CustomerID").html("Este campo es obligatorio. Por favor no lo dejes vacío.");
+                            $("span.CustomerID").html("Este campo no se puede dejar vacío y además debe tener una longitud exacta de 5 caracteres, sin incluir espacios ni símbolos (solo se permiten números o letras).");
                         } else {
                             $("span.CustomerID").html("");
                         }
@@ -105,7 +108,6 @@
                             $("span.CompanyName").html("");
                         }
 
-                        // Overall check of presence of at least one invalid field.
 
                         if (invalidFields > 0) {
                             alert("Por favor revisa los textos en rojo debajo de algunos campos que has ingresado. Hay por lo menos uno de ellos que debe ser modificado para poder enviar su solicitud.");
@@ -141,7 +143,12 @@
                                 window.location.assign(`https://${window.location.host}/clientes/`);
                             },
                             error: (e) => {
-                                alert("Ha habido un problema y hemos sido incapaces de agregar tu nuevo cliente. Por favor vuelva a intentarlo nuevamente o contactese con el administrador del sitio.");
+                                console.log(e);
+                                if (e.status === 409) {
+                                    alert("Has ingresado un identificador de cliente que ya existe en nuestra base de datos. Por favor intenta con otra cadena de caracteres.");
+                                } else {
+                                    alert("Ha habido un problema y hemos sido incapaces de agregar tu nuevo cliente. Por favor vuelva a intentarlo nuevamente o contactese con el administrador del sitio.");
+                                }    
                             },
                             complete: () => {
                                 $('.ajax-loader').hide();

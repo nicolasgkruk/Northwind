@@ -17,13 +17,13 @@
         <div class="panel-body">
             <div class="form-group">
                 <label for="CustomerID">Identificador</label>
-                <input class="form-control text-box single-line CustomerID" type="text" value="">
+                <input class="form-control text-box single-line CustomerID" type="text" value="" placeholder="Solo admite 5 caracteres (letras o números, sin espacios)">
                 <span class="field-validation-valid text-danger CustomerID"></span>
             </div>
 
             <div class="form-group">
                 <label for="CompanyName">Empresa</label>
-                <input class="form-control text-box single-line CompanyName" type="text" value="">
+                <input class="form-control text-box single-line CompanyName" type="text" placeholder="Este campo es obligatorio." value="">
                 <span class="field-validation-valid text-danger CompanyName"></span>
             </div>
 
@@ -65,7 +65,9 @@
 
             <div class="form-group">
                 <label for="Country">País</label>
-                <select class="form-control text-box single-line Country" asp-items="ViewBag.Paises"></select>
+                <select class="form-control text-box single-line Country" asp-items="ViewBag.Paises">
+                    <option value="">Elegir</option>
+                </select>
                 <span class="field-validation-valid text-danger Country"></span>
             </div>
 

@@ -62,7 +62,7 @@ namespace Web.Controllers
                 if (respuesta.StatusCode == HttpStatusCode.NoContent) return RedirectToAction("index");
             }
 
-            return View("Index");
+            return View("Editar", customer);
         }
 
         public async Task<IActionResult> Ficha(string id)
