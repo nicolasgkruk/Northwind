@@ -6,7 +6,7 @@
     <script>
         $(document).ready(function () {
             $.ajax({
-                url: "https://localhost:44394/api/Customers/" + "@Model.CustomerID" + "/orders/",
+                url: "https://kruk.works/api/Customers/" + "@Model.CustomerID" + "/orders/",
                 type: 'get',
                 contentType: 'application/json',
                 success: (res) => {                   

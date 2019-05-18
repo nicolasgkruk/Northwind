@@ -13,7 +13,7 @@
         Clientes: {
             Listado: () => {
                 $.ajax({
-                    url: 'https://localhost:44394/api/customers/',
+                    url: 'https://kruk.works/api/customers/',
                     type: 'get',
                     contentType: 'application/json',
                     beforeSend: () => {
@@ -119,7 +119,7 @@
 
 
                         $.ajax({
-                            url: 'https://localhost:44394/api/customers/',
+                            url: 'https://kruk.works/api/customers/',
                             type: 'post',
                             data: JSON.stringify({
                                 CustomerID: customerID,
@@ -161,7 +161,7 @@
         Pedidos: {
             Listado: () => {
                 $.ajax({
-                    url: 'https://localhost:44394/api/orders/',
+                    url: 'https://kruk.works/api/orders/',
                     type: 'get',
                     contentType: 'application/json',
                     beforeSend: () => {
@@ -203,7 +203,7 @@
             Buscar: () => {
                 let htmlSelectPaises = "";
                 $.ajax({
-                    url: 'https://localhost:44394/api/orders/countries',
+                    url: 'https://kruk.works/api/orders/countries',
                     type: 'get',
                     contentType: 'application/json',
                     beforeSend: () => {
@@ -234,7 +234,7 @@
         Productos: {
             Listado: () => {
                 $.ajax({
-                    url: 'https://localhost:44394/api/products/',
+                    url: 'https://kruk.works/api/products/',
                     type: 'get',
                     contentType: 'application/json',
                     beforeSend: () => {
@@ -281,7 +281,7 @@
                         $('.boton-pedidos').click((e) => {
                             const id = $(e.target).data('id');
                             $.ajax({
-                                url: "https://localhost:44394/api/Customers/" + id + "/Orders/",
+                                url: "https://kruk.works/api/Customers/" + id + "/Orders/",
                                 type: 'get',
                                 contentType: 'application/json',
                                 success: (res) => {
@@ -351,7 +351,7 @@
                             $('.modal-body').html(`<div class="text-center"><img src="https://${window.location.host}/img/ajax-loader.gif" /> Eliminando cliente, por favor espere un momento.</div>`);
 
                             $.ajax({
-                                url: "https://localhost:44394/api/Customers/" + id,
+                                url: "https://kruk.works/api/Customers/" + id,
                                 type: 'delete',
                                 contentType: 'application/json',
                                 success: (res) => {                                  
@@ -382,7 +382,7 @@
                         $('.boton-productos').click((e) => {
                             const id = $(e.target).data('id');
                             $.ajax({
-                                url: "https://localhost:44394/api/Orders/" + id + "/OrderDetails/",
+                                url: "https://kruk.works/api/Orders/" + id + "/OrderDetails/",
                                 type: 'get',
                                 contentType: 'application/json',
                                 success: (res) => {
@@ -454,7 +454,7 @@
                     let htmlTablaPedidos = "";
                     const tablaResultados = $("table.dataTable");
                     $.ajax({
-                        url: "https://localhost:44394/api/Orders?" + queryParams.join("&"),
+                        url: "https://kruk.works/api/Orders?" + queryParams.join("&"),
                         type: 'get',
                         contentType: 'application/json',
                         beforeSend: () => {
