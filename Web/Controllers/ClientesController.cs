@@ -87,7 +87,7 @@ namespace Web.Controllers
         public ClientesController()
         {
             cliente = new HttpClient();
-            cliente.BaseAddress = new Uri("http://kruk.works/api/");
+            cliente.BaseAddress = new Uri("https://kruk.works/api/");
         }
 
     }
