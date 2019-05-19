@@ -30,8 +30,6 @@ namespace DB
         public string Notes { get; set; }
         public int? ReportsTo { get; set; }
         public string PhotoPath { get; set; }
-        public string usuario { get; set; }
-        public string password { get; set; }
 
         public virtual Employees ReportsToNavigation { get; set; }
         public virtual ICollection<EmployeeTerritories> EmployeeTerritories { get; set; }

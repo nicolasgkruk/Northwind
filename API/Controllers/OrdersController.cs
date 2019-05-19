@@ -131,14 +131,14 @@ namespace API.Controllers
         }
 
 
-        // GET: api/Orders/5
+        // GET: api/Orders/10251
         [HttpGet("{id}")]
-        public async Task<ActionResult<Orders>> GetOrders(int id)
+        public async Task<ActionResult<Orders>> GetOrders(int? id)
         {
             var orders = await _context.Orders
                 .Where(r => r.OrderID == id)
                 .Include(r => r.Employee)
-                .Include(r=> r.ShipViaNavigation)
+                .Include(r => r.ShipViaNavigation)
                 .Include(r => r.Order_Details)
                 .Include("Order_Details.Product")
                 .FirstOrDefaultAsync();

@@ -179,10 +179,6 @@ namespace DB
 
                 entity.Property(e => e.TitleOfCourtesy).HasMaxLength(25);
 
-                entity.Property(e => e.password).HasMaxLength(150);
-
-                entity.Property(e => e.usuario).HasMaxLength(50);
-
                 entity.HasOne(d => d.ReportsToNavigation)
                     .WithMany(p => p.InverseReportsToNavigation)
                     .HasForeignKey(d => d.ReportsTo)
