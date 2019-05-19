@@ -350,3 +350,4 @@ typings/
 .dynamodb/
 
 appsettings.json
+.API/appsettings.json
