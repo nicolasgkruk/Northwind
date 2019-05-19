@@ -45,7 +45,7 @@ namespace Web.Controllers
         public PedidosController()
         {
             cliente = new HttpClient();
-            cliente.BaseAddress = new Uri("https://kruk.works/api/");
+            cliente.BaseAddress = new Uri("http://kruk.works/api/");
         }
     }
 }
